@@ -1,0 +1,65 @@
+<link rel="import" href="../../bower_components//polymer/polymer-element.html">
+
+<dom-module id="padre-input">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <label>Nombre: <span><input type="text" on-keydown="sendText" /></span></label>
+    <div>
+      <p id="parrafo">
+       tu nombre es: [[name]]
+      </p>
+    </div>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class PadreInput extends Polymer.Element {
+      static get is() { return 'padre-input'; }
+      static get properties() {
+        return {
+          name: {
+            type: String,
+            value: '',
+            reflectToAttribute: true
+          }
+        };
+      }
+
+      ready() {
+        super.ready()
+      }
+
+      sendText(e) {
+        this.dispatchEvent(new CustomEvent('enviar', {
+          detail: e.key,
+          bubbles: true,
+          composed: true
+        }));
+      }
+    }
+
+    document.querySelector('ejercicio-input-app').addEventListener('enviar', function (e) {
+      console.log(e.detail);
+      let prueba = 'hola'
+      if(e.detail === 'Backspace') {
+        this.name = this.name.slice(0,-1);
+        console.log(this.name);
+      }else if(e.detail.length>1){
+        return
+      }else{
+        this.name += e.detail;  
+        console.log(this.name);
+      } 
+   
+    });
+
+    window.customElements.define(PadreInput.is, PadreInput);
+  </script>
+</dom-module>
