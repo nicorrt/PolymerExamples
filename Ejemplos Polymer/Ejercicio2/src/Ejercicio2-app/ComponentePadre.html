@@ -1,0 +1,70 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="./ComponenteNieto.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">
+
+<dom-module id="componente-padre">
+  <template>
+    <style>
+      :host {
+        display: flex;
+      }
+    </style>
+
+    <h2>[[prop1]]</h2>
+    <button on-click="openNieto">Enviar Mensaje</button>
+    <template is="dom-if" if="[[!clickado]]">
+      </template>
+      <template is="dom-if" if="[[clickado]]">
+        <componente-nieto id="1"></componente-nieto>
+        <componente-nieto id="2"></componente-nieto>
+        <componente-nieto id="3"></componente-nieto>
+      </template>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class ComponentePadre extends Polymer.Element {
+      static get is() { return 'componente-padre'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'Padre'
+          },
+          clickado: {
+            type: Boolean,
+            value: false
+          },
+          id: String
+        };
+      }
+
+      openNieto() {
+        if(this.clickado==false){
+          this.clickado = true;
+        }else{
+          this.clickado = false;
+        }
+        this.dispatchEvent(new CustomEvent('mensaje', {
+          detail: {
+            valor: 'He hecho click en el Hijo ' + this.id,
+            id: this.id
+          },
+          bubbles: true,
+          composed: true
+        }));
+      }
+
+      ready() {
+        super.ready();
+        console.log("Ejecutandose ready Padre");
+      }
+
+    }
+
+    window.customElements.define(ComponentePadre.is, ComponentePadre);
+  </script>
+</dom-module>
