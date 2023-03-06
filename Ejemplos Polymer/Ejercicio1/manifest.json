@@ -1,0 +1,6 @@
+{
+  "name": "Input",
+  "short_name": "Input",
+  "start_url": "/",
+  "display": "standalone"
+}

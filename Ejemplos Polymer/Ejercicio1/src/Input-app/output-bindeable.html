@@ -1,0 +1,63 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="./input-bindeable.html">
+
+<dom-module id="output-bindeable">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+        <div>
+            <h1>Hola - [[respuesta]]</h1>
+            <input-bindeable label="Escribe" type="text" value="[[respuesta]]"></input-bindeable>
+        </div>
+    </template>
+
+    <script>
+        /**
+         * @customElement
+         * @polymer
+         */
+        class OutputBindeable extends Polymer.Element {
+            static get is() { return 'output-bindeable'; }
+            static get properties() {
+                return {
+                    respuesta: {
+                        type: String,
+                        value: '',
+                        notify: true
+                    },
+                    _event: {
+                        type: Object
+                    }
+                };
+            }
+
+            constructor(){
+                super();
+            }
+
+            ready(){
+                super.ready();
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                this._event = this.addEventListener('enviarTexto', this.depurarTexto.bind(this) );
+            }
+
+            disconnectedCallback() {
+                this.removeEventListener('enviar', this._event)
+                super.disconnectedCallback();
+            }
+
+            depurarTexto({detail} = {}) {
+                (detail === 'Backspace') ? this.respuesta = this.respuesta.slice(0, -1):
+                detail.length > 1 ? '' : this.respuesta += detail;
+            }
+        }
+
+        window.customElements.define(OutputBindeable.is, OutputBindeable);
+    </script>
+</dom-module>
