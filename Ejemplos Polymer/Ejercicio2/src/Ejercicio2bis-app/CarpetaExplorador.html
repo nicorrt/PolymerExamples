@@ -1,0 +1,143 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
+
+<dom-module id="carpeta-explorador">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      #hijos {
+        margin-left: 50px;
+      }
+
+      #nietos {
+        margin-left: 100px;
+      }
+
+      .marcada {
+        color: rgb(79, 165, 9);
+        font-weight: bold;
+        background-color: bisque;
+      }
+
+      .desmarcada {
+        color: rgb(109, 109, 109);
+      }
+
+      .marcada2 {
+        color: rgb(107, 169, 55);
+        font-weight: bold;
+        background-color: rgb(111, 76, 33);
+      }
+
+      .desmarcada2 {
+        color: rgb(109, 109, 109);
+      }
+
+      .marcada3 {
+        color: rgb(24, 139, 138);
+        font-weight: bold;
+        background-color: rgb(77, 26, 104);
+      }
+
+      .desmarcada3 {
+        color: rgb(109, 109, 109);
+      }
+    </style>
+    <div>
+      <p class$="[[clase]]" on-click="marcarCarpeta">[[nombre]]</p>
+      <template is="dom-if" if="[[clickado]]">
+        <template is="dom-repeat" items="[[hijos]]" as="hijo">
+          <div id="hijos">
+            <p class$="[[clase2]]" on-click="marcarCarpeta2">[[hijo.nombre]]</p>
+          </div>
+          <template is="dom-if" if="[[clickado2]]">
+            <template is="dom-repeat" items="[[hijo.hijos]]" as="nieto">
+              <div id="nietos">
+                <p class$="[[clase3]]" on-click="marcarCarpeta3">[[nieto.nombre]]</p>
+              </div>
+            </template>
+          </template>
+        </template>
+      </template>
+    </div>
+
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class CarpetaExplorador extends Polymer.Element {
+      static get is() { return 'carpeta-explorador'; }
+      static get properties() {
+        return {
+          explorador: Object,
+          nombre: {
+            type: String,
+            value: ''
+          },
+          clickado: {
+            type: Boolean,
+            value: null
+          },
+          clickado2: {
+            type: Number,
+            value: null
+          },
+          clickado3: {
+            type: Number,
+            value: null
+          },
+          hijos: {
+            type: Object,
+          },
+          clase: {
+            type: String,
+            computed: 'calculaClase(clickado)'
+          },
+          clase2: {
+            type: String,
+            computed: 'calculaClase2(clickado2)'
+          },
+          clase3: {
+            type: String,
+            computed: 'calculaClase3(clickado3)'
+          }
+        };
+      }
+
+      calculaClase(clickado) {
+        return (this.clickado == true) ? 'marcada' : 'desmarcada';
+      }
+
+      calculaClase2(clickado2) {
+        return (this.clickado2 == true) ? 'marcada2' : 'desmarcada2';
+      }
+
+      calculaClase3(clickado3) {
+        return (this.clickado3 == true) ? 'marcada3' : 'desmarcada3';
+      }
+
+      marcarCarpeta() {
+        this.clickado = !this.clickado
+      }
+      marcarCarpeta2() {
+        this.clickado2 = !this.clickado2
+      }
+      marcarCarpeta3() {
+        this.clickado3 = !this.clickado3
+      }
+
+
+    }
+
+
+
+    window.customElements.define(CarpetaExplorador.is, CarpetaExplorador);
+  </script>
+</dom-module>

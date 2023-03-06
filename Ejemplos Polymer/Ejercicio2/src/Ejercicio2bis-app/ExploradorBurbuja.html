@@ -1,0 +1,51 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="./CarpetaExplorador.html">
+<dom-module id="explorador-burbuja">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+        <template is="dom-repeat" items="[[explorador.carpetas]]" as="carpeta">
+
+                <carpeta-explorador 
+                    nombre="[[carpeta.nombre]]" 
+                    hijos="[[carpeta.hijos]]"
+                    clickado="[[carpeta.clickado]]">
+                </carpeta-explorador>
+
+        </template>
+    </template>
+
+    </template>
+
+    <script>
+        /**
+         * @customElement
+         * @polymer
+         */
+        class ExploradorBurbuja extends Polymer.Element {
+            static get is() { return 'explorador-burbuja'; }
+            static get properties() {
+                return {
+                    explorador: Object,
+                };
+            }
+
+            constructor() {
+                super();
+            }
+
+            /**
+             * Use for one-time configuration of your component after local DOM is initialized. 
+             */
+            ready() {
+                super.ready();
+            }
+        }
+
+        window.customElements.define(ExploradorBurbuja.is, ExploradorBurbuja);
+    </script>
+</dom-module>
