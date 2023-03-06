@@ -1,0 +1,68 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">
+
+<dom-module id="input-bindeable">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <template is="dom-if" if="[[etiquetada]]">
+      <span>[[label]]</span>
+    </template>
+    <input type="text" on-keydown="sendText" />
+
+    <!-- <input type="text" value="{{label::input}}"/> -->
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class InputBindeable extends Polymer.Element {
+      static get is() { return 'input-bindeable'; }
+      static get properties() {
+        return {
+          nombre: {
+            type: String,
+            value: '',
+            notify: true
+          },
+          label: {
+            type: String,
+            value: ''
+          },
+          etiquetada: {
+            type: Boolean,
+            value: false,
+            computed: 'tieneEtiqueta(label)'
+          },
+        };
+      }
+
+      tieneEtiqueta(label) {
+        let prueba = false
+        if (label.length >= 1) {
+          return true;
+        }
+        return this.etiquetada;
+      }
+
+      sendText(e) {
+        this.dispatchEvent(new CustomEvent('enviarTexto', {
+          detail: this.nombre = e.key,
+          bubbles: true,
+          composed: true
+        }));
+      }
+
+      constructor() {
+        super();
+      }
+
+    }
+    window.customElements.define(InputBindeable.is, InputBindeable);
+  </script>
+</dom-module>
