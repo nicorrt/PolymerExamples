@@ -1,0 +1,116 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="./FolderParent.html">
+
+<dom-module id="explorer-data">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <header>Estamos en [[nombre]]</header>
+    <folder-parent carpetas="[[explorador.carpetas]]" id="folder-parent">
+    </folder-parent>
+
+  </template>
+
+  <script>
+
+    /**
+     * @customElement
+     * @polymer
+     */
+    class ExplorerData extends Polymer.Element {
+      static get is() { return 'explorer-data'; }
+      static get properties() {
+        return {
+          nombre: { type: String },
+          explorador: {
+            type: Array,
+            _event: Object,
+            value: function () {
+              return {
+                carpetas: [
+                  {
+                    nombre: 'carpeta1',
+
+                    hijos: [
+                      {
+                        nombre: 'carpeta1Hijo1',
+                        hijos: []
+                      },
+                      {
+                        nombre: 'carpeta1Hijo2',
+                        hijos: []
+                      }
+
+                    ]
+                  },
+                  {
+                    nombre: 'carpeta2',
+
+                    hijos: [
+                      {
+                        nombre: 'carpeta2Hijo1',
+                        hijos: []
+                      },
+                      {
+                        nombre: 'carpeta2Hijo2',
+                        hijos: []
+                      }
+                    ]
+                  },
+                  {
+                    nombre: 'carpeta3',
+                    hijos: [
+                      {
+                        nombre: 'carpeta3Hijo1',
+                        hijos: [
+                          {
+                            nombre: 'Hijo1Nieto1',
+                            hijos: [{
+                              nombre: 'Hijo1Nieto1Bisnieto',
+                              hijos: []
+                            }]
+                          },
+                          {
+                            nombre: 'Hijo2Nieto1',
+                            hijos: []
+                          }
+                        ]
+                      },
+                      {
+                        nombre: 'carpeta3Hijo2',
+                        hijos: []
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        };
+
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+        this.evento = this.nuevoNodo.bind(this);
+        this.addEventListener("enviarNodo", this.evento);
+      }
+
+      disconnectedCallback() {
+        this.removeEventListener("enviarNodo", this.evento);
+        super.disconnectedCallback();
+      }
+
+      nuevoNodo({ detail }) {
+        this.nombre = detail;
+      }
+    }
+
+    window.customElements.define(ExplorerData.is, ExplorerData);
+  </script>
+</dom-module>
