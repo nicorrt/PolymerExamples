@@ -1,0 +1,63 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="./CarpetaExplorador.html">
+
+<dom-module id="explorador-burbuja">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+        <template is="dom-repeat" items="[[carpetas]]" as="carpeta">
+
+            <carpeta-explorador id="[[carpeta.nombre]]" nombre="[[carpeta.nombre]]" hijos='[[carpeta.hijos]]'
+                clickado="[[carpetas.clickado]]" carpeta="[[carpeta]]">
+            </carpeta-explorador>
+
+        </template>
+    </template>
+
+    </template>
+
+    <script>
+        /**
+         * @customElement
+         * @polymer
+         */
+        class ExploradorBurbuja extends Polymer.Element {
+            static get is() { return 'explorador-burbuja'; }
+            static get properties() {
+                return {
+                    nombre: {
+                        type: String,
+                        value: ''
+                    },
+                    carpetas: Array,
+                    _event: {
+                        type: Object
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                this._event = this.nuevoNodo.bind(this);
+                this.addEventListener('enviarNodo', this._event);
+
+            }
+
+            disconnectedCallback() {
+                this.removeEventListener('enviarNodo', this._event)
+                super.disconnectedCallback();
+            }
+
+
+            nuevoNodo({ detail }) {
+                this.nombre = detail.nombre;
+            }
+        }
+
+        window.customElements.define(ExploradorBurbuja.is, ExploradorBurbuja);
+    </script>
+</dom-module>

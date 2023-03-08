@@ -1,0 +1,88 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="./ExploradorBurbuja.html">
+
+<dom-module id="carpeta-explorador">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      #hijos {
+        margin-left: 50px;
+      }
+
+      #nietos {
+        margin-left: 100px;
+      }
+
+      .marcada {
+        color: rgb(79, 165, 9);
+        font-weight: bold;
+        background-color: bisque;
+      }
+
+      .desmarcada {
+        color: rgb(15, 18, 92);
+        background-color: rgb(70, 139, 185);
+      }
+
+    </style>
+    <div on-click="sendNodo">
+      <p class$="[[clase]]">[[nombre]]</p>
+      <template is="dom-if" if="[[clickado]]">   
+          <div id="hijos" >
+            <explorador-burbuja carpetas="[[hijos]]" nombre="[[hijo.nombre]]"></explorador-burbuja>
+          </div>
+      </template>
+    </div>
+
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class CarpetaExplorador extends Polymer.Element {
+      static get is() { return 'carpeta-explorador'; }
+      static get properties() {
+        return {
+          nombre: {
+            type: String,
+            value: ''
+          },
+          clickado: {
+            type: Boolean,
+          },
+          hijos: {
+            type: Array,
+          },
+          clase: {
+            type: String,
+            computed: 'calculaClase(clickado)'
+          }
+        };
+      }
+
+      calculaClase(clickado) {
+        return (this.clickado == true) ? 'marcada' : 'desmarcada';
+      }
+
+      sendNodo(e) { 
+        e.stopPropagation();
+        this.clickado = !this.clickado
+        this.dispatchEvent(new CustomEvent('enviarNodo', {
+          detail: this.carpeta,
+          bubbles: true,
+          composed: true
+        }));
+      }
+
+    }
+
+    window.customElements.define(CarpetaExplorador.is, CarpetaExplorador);
+  </script>
+</dom-module>
