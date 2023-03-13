@@ -1,0 +1,6 @@
+{
+  "name": "observers-entrega",
+  "short_name": "observers-entrega",
+  "start_url": "/",
+  "display": "standalone"
+}
