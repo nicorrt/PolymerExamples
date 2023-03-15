@@ -1,0 +1,64 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../slide/slide-carrusel.html">
+
+<dom-module id="my-template">
+    <template>
+        <style>
+            :host {
+                display: block;
+                background-color: rgb(155, 214, 202);
+            }
+
+            .header {
+                position: absolute;
+                width: 100%;
+                height: 200px;
+                color: bisque;
+                max-width: fit-content;
+            }
+
+            .footer {
+                color: aqua;
+            }
+
+            .body {
+                color: brown;
+            }
+        </style>
+
+        <header>
+            <slot class="header" name="header">
+                <slot class="imagen" name="imagen">
+                </slot>
+                <slot id="text" name="text">
+                </slot>
+            </slot>
+        </header>
+
+        <body>
+            <slot class="body" name="body">
+            </slot>
+        </body>
+
+        <footer>
+            <slot class="footer" name="footer">
+                <p>Texto predeterminado del Footer</p>
+            </slot>
+        </footer>
+
+    </template>
+
+    <script>
+        /**
+         * @customElement
+         * @polymer
+         */
+        class MyTemplate extends Polymer.Element {
+            static get is() { return 'my-template'; }
+            static get properties() {
+            }
+        }
+
+        window.customElements.define(MyTemplate.is, MyTemplate);
+    </script>
+</dom-module>

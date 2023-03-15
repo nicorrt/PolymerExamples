@@ -1,0 +1,62 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../mixin/event-mixin.html">
+
+<dom-module id="slide-item">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+            .mensaje {
+                width: 70px;
+                background-color: antiquewhite;
+                border-radius: 10px;
+                height: 100px;
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                margin: 20px;
+            }
+
+            ::slotted(*) {
+                background-color: rgb(51, 109, 160);
+            }
+        </style>
+        <div class="mensaje">
+            [[slide.mensaje]]
+            <i>
+                [[slide.id]]
+            </i>
+            <button on-click="mostrarDetalle">X</button>
+        </div>
+
+    </template>
+
+    <script>
+        /**
+         * @customElement
+         * @polymer
+         */
+        class SlideItem extends EventMixin(Polymer.Element) {
+            static get is() { return 'slide-item'; }
+            static get properties() {
+                return {
+                    slide: {
+                        type: Object,
+                    }
+                };
+            }
+
+            mostrarDetalle(e) {
+                e.stopPropagation();
+                this.fire('mostrar', {
+                    id: this.slide.id,
+                    mensaje: this.slide.mensaje
+                });
+            }
+        }
+
+        window.customElements.define(SlideItem.is, SlideItem);
+    </script>
+</dom-module>

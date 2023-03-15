@@ -1,0 +1,90 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">
+<link rel="import" href="./my-template.html">
+<link rel="import" href="../slide/slide-carrusel.html">
+
+<dom-module id="slot-ejercicio-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <my-template>
+      <h1 slot="header">
+        <template is="dom-if" if="[[imagen]]">
+          <img src="[[imagen]]" slot="imagen">
+        </template>
+        <template is="dom-if" if="[[texto]]">
+          <p slot="text">[[texto]]</p>
+        </template>
+      </h1>
+
+      <div slot="body">
+        <slide-carrusel slides="[[slides]]" slot="carrusel"></slide-carrusel>
+        <p>Soy el hijo: [[_identificador]]</p>
+      </div>
+
+    </my-template>
+
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class SlotEjercicioApp extends Polymer.Element {
+      static get is() { return 'slot-ejercicio-app'; }
+      static get properties() {
+        return {
+          _identificador: {
+            type: Number,
+          },
+          imagen: {
+            type: String,
+            value: 'https://media.istockphoto.com/id/1342439610/es/foto/fondo-de-navidad-y-a%C3%B1o-nuevo-con-ramas-de-abeto-bolas-de-navidad-y-luces.jpg?s=1024x1024&w=is&k=20&c=235Cgua0DjjEHDvfyCEhJYZ4WqPxM1ALh_fyHylp6lk='
+          },
+          texto: {
+            type: String,
+            value: 'Valor desde el componente'
+          },
+          slides: {
+            type: Array,
+            value: () => [
+              {
+                id: 1,
+                mensaje: 'Soy: '
+              },
+              {
+                id: 2,
+                mensaje: 'Soy: '
+              },
+              {
+                id: 3,
+                mensaje: 'Soy: '
+              },
+
+            ]
+          }
+        };
+      }
+      connectedCallback() {
+        super.connectedCallback();
+        this.evento = this.nuevoNodo.bind(this);
+        this.addEventListener("mostrar", this.evento);
+      }
+
+      disconnectedCallback() {
+        this.removeEventListener("mostrar", this.evento);
+        super.disconnectedCallback();
+      }
+
+      nuevoNodo({ detail: { id = 0 } }) {
+        this._identificador = id;
+      }
+    }
+
+    window.customElements.define(SlotEjercicioApp.is, SlotEjercicioApp);
+  </script>
+</dom-module>

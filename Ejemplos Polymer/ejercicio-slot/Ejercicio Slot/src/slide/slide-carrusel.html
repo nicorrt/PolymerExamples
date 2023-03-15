@@ -1,0 +1,61 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="./slide-item.html">
+
+<dom-module id="slide-carrusel">
+    <template>
+        <style>
+            :host {
+                display: block;
+
+            }
+
+            .carrusel {
+                color: rgb(13, 13, 14);
+                display: flex;
+            }
+        </style>
+        <slot class="carrusel" name="carrusel">
+            <template is="dom-repeat" items="[[slides]]" as="slideItem">
+                <slide-item slide="[[slideItem]]"></slide-item>
+            </template>
+        </slot>
+
+    </template>
+
+    <script>
+        /**
+         * @customElement
+         * @polymer
+         */
+        class SlideCarrusel extends Polymer.Element {
+            static get is() { return 'slide-carrusel'; }
+            static get properties() {
+                return {
+                    slides: Array
+                };
+            }
+            static get observers() {
+                return [
+                    '_slidesChanged(slides.splices)',
+                    '_slidesIdChanged(slides.*)'
+                ];
+            }
+
+            _slidesChanged(splices) {
+                console.log(splices);
+            }
+
+            _slidesIdChanged(changeRecord) {
+                console.log('changeRecord en una casilla de array:', changeRecord);
+            }
+
+            mostrarItem() {
+                console.log(this.slides);
+            }
+
+        }
+
+        window.customElements.define(SlideCarrusel.is, SlideCarrusel);
+    </script>
+</dom-module>
