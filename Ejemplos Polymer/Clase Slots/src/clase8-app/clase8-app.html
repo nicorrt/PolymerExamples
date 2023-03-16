@@ -1,0 +1,82 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../ficha-usuario/ficha-usuario.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../password-strength-bar.html">
+<dom-module id="clase8-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+        background-color: rgb(220, 220, 72);
+        border-radius: 15px;
+        padding: 20px;
+        --paper-spinner-layer-1-color: white;
+        --paper-spinner-layer-2-color: rgb(201, 105, 105);
+        --paper-spinner-layer-3-color: rgb(97, 19, 19);
+        --paper-slider-knob-start-border-color: red;
+        --paper-slider-knob-color: green;
+        --password-strength-bar-background-color: red;
+        --password-strength-bar-color: blue;
+        --paper-slider-input: {
+          background-color: yellow;
+          padding: 20px;
+          width: 80px;
+        }
+
+        --password-strength-bar-items: {
+          width: 12px;
+          height: 10px;
+          border-radius: 5px;
+          box-shadow: 2px 2px 2px 0;
+        }
+        
+      }
+      paper-spinner {
+        --paper-spinner-stroke-width: 10px;
+      }
+
+      password-strength-bar {
+        --password-strength-bar-box: {
+          border-radius: 20px;
+          padding: 20px
+        }
+      }
+    </style>
+    <slot></slot>
+    <h2>Hello [[prop1]]!</h2>
+    <ficha-usuario>
+      Nicolás
+      <p slot="perfil">FullStarck Developer</p>
+      <span slot="twitter"> @nico </span></s>
+    </ficha-usuario>
+    
+    <paper-spinner active></paper-spinner>
+    
+    <paper-slider min="0" max="10" value="{{valor}}" pin editable></paper-slider>
+    
+    <p>[[valor]]</p>
+    <password-strength-bar fortaleza="[[valor]]"></password-strength-bar>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class Clase8App extends Polymer.Element {
+      static get is() { return 'clase8-app'; }
+      static get properties() {
+        return {
+          valor: {
+            type: Number,
+            value: 'clase8-app',
+            value: 5
+          }
+        };
+      }
+    }
+
+    window.customElements.define(Clase8App.is, Clase8App);
+  </script>
+</dom-module>
