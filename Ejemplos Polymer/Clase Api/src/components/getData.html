@@ -1,0 +1,56 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="get-data">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+        <button on-click="getData">GetData</button>
+    </template>
+
+    <script>
+        /**
+         * @customElement
+         * @polymer
+         */
+        class GetData extends Polymer.Element {
+            static get is() { return 'get-data'; }
+            static get properties() {
+                return {
+                    url: String,
+                    method: String
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+            _sendData(data) {
+                console.log("creo el CustoEvent con sus datos: ", data);
+                this.dispatchEvent(new CustomEvent('datos'), {
+                    detail: "prueba" ,
+                    bubbles: true,
+                    composed: true
+                });
+            }
+
+            getData() {
+                console.log("hago fetch");
+                fetch(this.url, { method: this.method })
+                    .then((response) => {
+                        if (response.ok) return response.json();
+                        return Promise.reject(response);
+                    }).then((data) => { 
+                        console.log(data);
+                        this._sendData(data); 
+                    })
+                    .catch((error) => { console.log("Se ha producido un error"); })
+            }
+        }
+
+        window.customElements.define(GetData.is, GetData);
+    </script>
+</dom-module>

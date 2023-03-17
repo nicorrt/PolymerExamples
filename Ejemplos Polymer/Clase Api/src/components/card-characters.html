@@ -1,0 +1,59 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="card-characters">
+  <template>
+    <style>
+      :host {
+        display: block;
+        }
+        .card {
+            background: #fff;
+            border-radius: 2px;
+            display: inline-block;
+            height: 300px;
+            width: 200px;
+            margin: 1rem;
+            position: relative;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+        }
+
+        .card:hover {
+            box-shadow: 0 14px 28px rgba(0,0,0,0.12), 0 10px 10px rgba(0,0,0,0.24);
+        }
+
+        .card img{
+            width: 80%;
+        }
+    </style>
+    <div class="card">
+        <div class="card-content">
+            <h2>[[nombre]]</h2>
+            <img src="[[img]]" alt="">
+            <p>[[specie]]</p>
+            <p>[[status]]</p>
+        </div>
+    </div>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class CardCharacters extends Polymer.Element {
+      static get is() { return 'card-characters'; }
+      static get properties() {
+        return {
+          nombre: String,
+          img: String,
+          specie: String,
+          status:String
+        };
+      }
+    }
+
+    window.customElements.define(CardCharacters.is, CardCharacters);
+  </script>
+</dom-module>

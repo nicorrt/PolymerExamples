@@ -1,0 +1,6 @@
+{
+  "name": "rick-morty-api",
+  "short_name": "rick-morty-api",
+  "start_url": "/",
+  "display": "standalone"
+}
